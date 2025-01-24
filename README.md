@@ -64,7 +64,8 @@ Navigate to the deployed Worker's URL and upload a PDF file. The Worker will pro
 Send a POST request to `/api/upload` with the PDF file in the request body:
 
 ```bash
-curl -X POST -H "Content-Type: application/pdf" --data-binary "@/path/to/your/pdf/file.pdf" <WORKER_URL>/api/upload
+curl -X POST -F 'pdfFile=@EvanGoodwinResume3.pdf' http://localhost:8787/api/upload
+
 ```
 
 ### Listing Files
