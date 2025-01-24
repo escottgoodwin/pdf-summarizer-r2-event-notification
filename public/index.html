@@ -82,6 +82,7 @@
 
 				// get form data
 				const formData = new FormData(event.target);
+				formData.append("jobId", "1");
 				const file = formData.get('pdfFile');
 
 				if (file) {

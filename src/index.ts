@@ -259,7 +259,6 @@ export default {
 		// Get the pathname from the request
 		const pathname = new URL(request.url).pathname;
 
-		const jobId = 1;
 		const DB = env.DB;
 		const AI = env.AI;
 
@@ -268,6 +267,10 @@ export default {
 			const formData = await request.formData();
 
 			const file = formData.get('pdfFile') as File;
+
+			const jobIdStr = formData.get('jobId') as string
+
+			const jobId = parseInt(jobIdStr);
 
 			const upload = await env.resumes.put(file.name, file);
 
