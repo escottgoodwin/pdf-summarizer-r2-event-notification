@@ -29,10 +29,11 @@ const addResumeToStore = async (resume: any, r2_key: string, resumeRaw: string, 
         const { first_name, last_name, email, phone, address, education, experience, skills, certifications, awards } = resume;
 
         const personId = await addPerson(first_name, last_name, email, phone, address, resumeRaw, r2_key, DB);
-		console.log(personId)
+
 		if(!personId) {
 			throw new Error('Error adding personal info')
 		}
+
         await addEducation(personId, education, DB)
         await addExperience(personId, experience, DB)
         await addSkills(personId, skills, DB)
@@ -51,7 +52,6 @@ const addPerson = async (first_name: string, last_name: string, email: string, p
        const results = await DB.prepare(personalSQl)
             .bind(first_name, last_name, email, phone, address, resumeRaw, r2_key)
             .run();
-		console.log(results.meta)
 		return results.meta.last_row_id
     } catch (e) {
 		console.log('Error adding personal info')
@@ -68,7 +68,7 @@ const addSkills = async (personId: number, skills: any[], DB: D1Database) => {
     const skillsSQl = `INSERT INTO Skills (person_id, skill) VALUES (?, ?)`    
     try {
         const stmt = DB.prepare(skillsSQl);
-        const batch = skills.map(s => stmt.bind(personId, s.skill))
+        const batch = skills.map(s => stmt.bind(personId, s))
         const batchResult = await DB.batch(batch);
     } catch (e) {
 		console.log('Error adding skills')
@@ -100,7 +100,7 @@ const addCertification = async (personId: number, certifications: any[], DB: D1D
     const certificationsSQl = `INSERT INTO Certifications (person_id, certification) VALUES (?, ?)`
     try {
         const stmt = DB.prepare(certificationsSQl);
-        const batch = certifications.map(c => stmt.bind(personId, c.certification))
+        const batch = certifications.map(c => stmt.bind(personId, c))
         const batchResult = await DB.batch(batch);
     } catch (e) {
 		console.log('Error adding certifications')
@@ -116,7 +116,7 @@ const addAwards = async (personId: number, awards: any[], DB: D1Database) => {
     const awardsSQl = `INSERT INTO Awards (person_id, award) VALUES (?, ?)`
     try {
         const stmt = DB.prepare(awardsSQl);
-        const batch = awards.map(a => stmt.bind(personId, a.award))
+        const batch = awards.map(a => stmt.bind(personId, a))
         const batchResult = await DB.batch(batch);
     } catch (e) {
 		console.log('Error adding awards')
@@ -142,13 +142,9 @@ const addEducation = async (personId: number, education: any[], DB: D1Database) 
 }
 
 const parseResume = async (resumeText: string, AI: Ai) => {
-	console.log(resumeText)
     try {
 
         const model = '@cf/meta/llama-3.1-8b-instruct';
-		// const gemma = '@cf/google/gemma-2b-it-lora'
-		// const llama3b = '@cf/meta/llama-3.2-3b-instruct'
-		// const gemma7b = '@hf/google/gemma-7b-it'
 
 		const prompt = `Parse the resume below and extract the following information returning ONLY a json object and NO other text or explanations before or after the JSON object: 
 		
@@ -224,17 +220,20 @@ const evaluateResume = async (resumeText: string, jobDescription: any, AI: Ai) =
 			},
 			{
 			  	role: "user",
-			  	content: `Evaluate the resume for the job description and provide a score, returning ONLY a json object with no explanation before or after the json object. 
+			  	content: `Evaluate the resume for the job description. Provide a numerical score and an evaluation of at least 200 words about the candidates qualifications for the job, returning ONLY a json object with no explanation before or after the json object. 
 				
 				json object example:
 
-				{"evaluation": "The candidate is qualified....', "score": 3 } 
+				{"evaluation": "The candidate is ....', "score": 3 } 
 				
-				Resume: 
-				${resumeText} 
-
 				Job Description: 
-				${jobDescription}`,
+
+				${jobDescription}
+
+				Resume: 
+
+				${resumeText} 
+				`,
 			},
 		  ];
         const answer = await AI.run(model, 
@@ -243,7 +242,7 @@ const evaluateResume = async (resumeText: string, jobDescription: any, AI: Ai) =
 				max_tokens: 1000, 
 			}) as { response: string };
 
-		console.log(answer.response)
+		
 		const cleanedeval = answer.response.replaceAll('`','').replace('json', '')
 		const eval1 = JSON.parse(cleanedeval)
 		return eval1;
@@ -266,11 +265,11 @@ export default {
 
 			const formData = await request.formData();
 
-			const file = formData.get('pdfFile') as File;
-
 			const jobIdStr = formData.get('jobId') as string
 
 			const jobId = parseInt(jobIdStr);
+
+			const file = formData.get('pdfFile') as File;
 
 			const upload = await env.resumes.put(file.name, file);
 
@@ -284,6 +283,8 @@ export default {
 
 			const resumeJson = await parseResume(text, AI);
 
+			const candidateName = `${resumeJson.first_name} ${resumeJson.last_name}`
+
 			const personId = await addResumeToStore(resumeJson, r2_key, text, DB);
 
 			const jobDescription = await getJobDescription(jobId, DB);
@@ -292,7 +293,7 @@ export default {
 
 			await addApplication(personId, jobId, evaluation, score,  DB);
 			
-			return Response.json({ text, evaluation, score }); 
+			return Response.json({ evaluation, score, candidateName }); 
 		} else if (pathname === '/api/list') {
 			const files = await env.resumes.list();
 			return new Response(JSON.stringify(files), {

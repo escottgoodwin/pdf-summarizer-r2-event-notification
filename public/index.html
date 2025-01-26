@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>PDF Summarizer</title>
+		<title>Customer Support Specialist Application</title>
 		<style>
 			body {
 				font-family: Arial, sans-serif;
@@ -22,13 +22,22 @@
 			.upload-container {
 				background-color: #f0f0f0;
 				padding: 20px;
+				margin: 20px;
 				border-radius: 8px;
 				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			}
+			.jobdesc {
+				margin: 20px;
+			}
+			.evaluation-item {
+				margin-top: 10px;
+				margin-bottom: 20px;
 			}
 			.upload-button {
 				background-color: #4caf50;
 				color: white;
 				padding: 10px 15px;
+				margin-top: 10px;
 				border: none;
 				border-radius: 4px;
 				cursor: pointer;
@@ -51,19 +60,38 @@
 			footer a:hover {
 				text-decoration: underline;
 			}
+			td {
+				vertical-align: top;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="content">
-			<div class="upload-container">
-				<h2>Upload PDF File</h2>
-				<form id="uploadForm" onsubmit="return handleSubmit(event)">
-					<input type="file" id="pdfFile" name="pdfFile" accept=".pdf" required />
-					<button type="submit" id="uploadButton" class="upload-button">Upload</button>
-				</form>
-			</div>
+			<table spacing="5">
+				<tr >
+					<td>
+						<h3 class="upload-container">Customer Support Specialist</h3>
+						<div class="upload-container">Location: Remote</div>
+						<form class="upload-container" onsubmit="handleSubmit(event)">
+							<input type="file" name="pdfFile" accept=".pdf" required />
+							<button id="uploadButton" class="upload-button">Apply with pdf</button>
+						</form>
+						<div id="evalElement" class="upload-container">
+							<div class="evaluation-item" id="candidateName"></div>
+							<div ><b>Score</b></div>
+							<div class="evaluation-item" id="score"></div>
+							<div ><b>Evaluation</b></div>
+							<div class="evaluation-item" id="evaluation"></div>
+						</div>
+					</td>
+					<td>
+						<div class="jobdesc">
+							Today, we live in a world where everything has become convenient. Now you can get a ride anywhere, buy anything, and get an answer to your question with just a couple clicks on your phone. Convenience isn’t a luxury, it’s an expectation. So why not renting? It’s still a chore to get utilities set up, buy renters insurance, get air filters changed, handle pest control, and more. That’s why we’ve built the world’s first Resident Experience Platform that makes resident onboarding, resident services, and ancillary revenue effortless for property managers. We’re passionate about turning friction into triple win experiences for residents, investors, and managers. That way renting can be easy and rewarding for everyone. And now you can join us. Apply today to join 220+ passionate, creative people who strive to make a difference each day so residents, property managers, and investors all win. Role Objectives Deliver an unforgettable customer experience Resolve customer issues with a customer centric approach to win consistently create raving fans Key Competencies Customer Centricity Delight the customer by responding to inbound customer service emails/calls with a customer centric attitude; resolve issues within 24-48 hours, notifying the customer if it will take longer Create triple wins through proactive customer service, including effective questioning, listening, probing, building rapport and objection handling Continue to receive 98%+ on CSAT scores Product Knowledge Develop a clear understanding of the RBP benefits/services/experiences and the Triple Win (RBP value to the resident, PM, Investor) Continue to articulate RBP value and profit opportunities Identify opportunities for customer upsells Cross functional collaboration Collaborate across departments to ensure a consistent and positive customer experience across all touches Gather and relay customer insights to internal teams regarding functionality, service needs, and market trends Attention to detail Deliver a first time resolution with quality and professionalism Emotional Intelligence/Empathy Pay close attention to customer concerns to fully understand and acknowledge their issues Demonstrate understanding through paraphrasing or summarizing the problem to ensure clarity Remain calm and professional when dealing with upset customers Acknowledge customers’ frustrations or emotions with statements like, I understand how that must feel. Digital Competency Use SalesForce Service Cloud to respond to customer tickets Maintain an accurate directory of customer contact details for assigned clients; proactively seek out opportunities to obtain other information to ensure accurate data Impact on Business Ensures all customers understand and derive maximum value/revenue from resident RBP activations Continuously builds and maintains Raving Fans by exceeding expectations, ensuring retention; reducing churn; and increasing upsells About you 2+ years experience with customer service, building rapport over the phone and overcoming objections Ability to work PST hours and some weekend hours Experience with Salesforce Service Cloud (or similar) and G-suite Experience monitoring and responding to Emails, Calls and Chat simultaneously Proven experience delivering results while meeting tight deadlines Ability to communicate effectively with internal and external stakeholders Confident personality with the ability to quickly adapt in a technology-led environment Ability to plan and organize workload in a fast-paced environment Ability to work successfully as an IC and as part of a team We get it. Requirements can sometimes hold people back from applying to a job, but don’t let that be the case here. If you believe you have the skills it takes to elevate this role, team, and company, we encourage you to apply for this role. Our Core Values Pirate Ship; not a cruise ship. Bias towards action. Massive Growth takes massive growth. We embrace challenges to increase our impact. Grow the Pie. We focus on results so our customers & their customers win. Triple Win! Purple Heart. We put the team before ourselves. Extreme Ownership. See something? Say something; right the ship to get us back on course. Be a moment maker. We aim to shatter the status quo. Remote Work Statement This position is a remote-first, work from home position. Second Nature is committed to creating a culture and workplace where remote work fosters collaboration and connections and is a key part of our company story and success. To be successful in a remote work role at Second Nature you must: Be available during your scheduled working hours and give your full attention to the completion of your Second Nature job duties Have a quiet, professional, distraction-free environment in which to complete your work Have access to your own reliable high-speed internet connection Attend our bi-annual in-person company meetings (Second Nature will reimburse the cost of your business travel per company guidelines) Why Second Nature? Health First: Medical, Dental, Vision, & Life Insurance; 401K Plan Location: Work Remotely from anywhere in the US Flexibility: Open PTO and sick days The Product: Beyond the awards and 5-star reviews… our clients and customers love what they can do with a fully managed RBP Diverse, Inclusive Culture: We embrace employees from all backgrounds with openness and respect Training: A supportive team to help you grow your career and unlock your full potential Growth: The opportunity to get in on the ground floor of a fast-growing startup that’s designing and developing an exciting category
+						</div>
+					</td>	
+				</tr>
+			</table>
 		</div>
-
 		<footer>
 			<a href="https://developers.cloudflare.com/r2/buckets/event-notifications/" target="_blank">R2 Event Notification</a>
 			<a href="https://developers.cloudflare.com/queues/get-started/#3-create-a-queue" target="_blank">Cloudflare Queues</a>
@@ -72,9 +100,16 @@
 		</footer>
 
 		<script>
+			const evaluation = document.getElementById('evaluation');
+			const score = document.getElementById('score');
+			const candidateName = document.getElementById('candidateName');
+			const evalElement = document.getElementById('evalElement');
+
+			evalElement.style.display = "none"
+
 			handleSubmit = async (event) => {
 				event.preventDefault();
-
+	
 				// Disable the upload button and show a loading message
 				const uploadButton = document.getElementById('uploadButton');
 				uploadButton.disabled = true;
@@ -84,20 +119,32 @@
 				const formData = new FormData(event.target);
 				formData.append("jobId", "1");
 				const file = formData.get('pdfFile');
-
+				
 				if (file) {
-					// call /api/upload endpoint and send the file
-					await fetch('/api/upload', {
-						method: 'POST',
-						body: formData,
-					});
+					try {
+						const res = await fetch('/api/upload', {
+							method: 'POST',
+							body: formData,
+						});
 
-					event.target.reset();
+						const data = await res.json();
+						const { score, candidateName } = data;
+						evaluation.textContent = data.evaluation
+						score.textContent = data.score.toString()
+						candidateName.textContent = data.candidateName
+						evalElement.style.display = "block"
+						event.target.reset();
+					} catch (error) {
+						console.error(error);
+						alert('An error occurred while uploading the file');
+					} finally{
+						uploadButton.disabled = false;
+						uploadButton.textContent = 'Upload';
+					}
 				} else {
+					alert('No file selected');
 					console.log('No file selected');
 				}
-				uploadButton.disabled = false;
-				uploadButton.textContent = 'Upload';
 			};
 		</script>
 	</body>
